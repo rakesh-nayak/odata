@@ -119,8 +119,10 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DataSource\InMemoryContext.cs" />
+    <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="DataSource\ProductsContext.cs" />
+    <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

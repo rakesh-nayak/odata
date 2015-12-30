@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
 
 namespace ProductService.Models
 {
-    public class Team
+    public class Skill
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-        public ICollection<Member> Members { get; set; }
     }
 }

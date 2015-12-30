@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -15,27 +17,20 @@ namespace ProductService.Controllers
     public class ProductsController : ODataController
     {
         ProductsContext db = new ProductsContext();
-        private bool ProductExists(int key)
-        {
-            return db.Products.Any(p => p.Id == key);
-        }
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
 
         [EnableQuery]
         public IQueryable<Product> Get()
         {
             return db.Products;
         }
+
         [EnableQuery]
         public SingleResult<Product> Get([FromODataUri] int key)
         {
             IQueryable<Product> result = db.Products.Where(p => p.Id == key);
             return SingleResult.Create(result);
         }
+       
         public async Task<IHttpActionResult> Post(Product product)
         {
             if (!ModelState.IsValid)
@@ -46,6 +41,7 @@ namespace ProductService.Controllers
             await db.SaveChangesAsync();
             return Created(product);
         }
+        
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<Product> product)
         {
             if (!ModelState.IsValid)
@@ -75,6 +71,7 @@ namespace ProductService.Controllers
             }
             return Updated(entity);
         }
+        
         public async Task<IHttpActionResult> Put([FromODataUri] int key, Product update)
         {
             if (!ModelState.IsValid)
@@ -103,6 +100,7 @@ namespace ProductService.Controllers
             }
             return Updated(update);
         }
+        
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
             var product = await db.Products.FindAsync(key);
@@ -122,5 +120,15 @@ namespace ProductService.Controllers
             return SingleResult.Create(result);
         }
 
+        private bool ProductExists(int key)
+        {
+            return db.Products.Any(p => p.Id == key);
+        }
+        
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }
