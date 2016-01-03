@@ -19,12 +19,14 @@ namespace ProductService.Controllers
         {
             return db.Teams.AsQueryable();
         }
+        
         [EnableQuery]
         public SingleResult<Team> Get([FromODataUri] int key)
         {
             IQueryable<Team> result = db.Teams.Where(p => p.Id == key).AsQueryable();
             return SingleResult.Create(result);
         }
+        
         public IHttpActionResult Post(Team team)
         {
             if (!ModelState.IsValid)
@@ -34,6 +36,7 @@ namespace ProductService.Controllers
             db.Teams.Add(team);
             return Created(team);
         }
+        
         public IHttpActionResult Patch([FromODataUri] int key, Delta<Team> team)
         {
             if (!ModelState.IsValid)
@@ -48,6 +51,7 @@ namespace ProductService.Controllers
             team.Patch(entity);
             return Updated(entity);
         }
+        
         public IHttpActionResult Put([FromODataUri] int key, Team update)
         {
             if (!ModelState.IsValid)
@@ -60,6 +64,7 @@ namespace ProductService.Controllers
             }
             return Updated(update);
         }
+        
         public IHttpActionResult Delete([FromODataUri] int key)
         {
             var team = db.Teams.SingleOrDefault(x => x.Id == key);
